@@ -6,12 +6,11 @@
 package com.microsoft.azure.iot.service.auth;
 
 import com.microsoft.azure.iot.service.sdk.IotHubConnectionString;
-import org.apache.commons.codec.binary.Base64;
+import com.microsoft.azure.util.Base64;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 /** 
  * Grants device access to an IoT Hub for the specified amount of time. 
@@ -77,13 +76,13 @@ public final class IotHubServiceSasToken
         try
         {
             // Codes_SRS_SERVICE_SDK_JAVA_IOTHUBSERVICESASTOKEN_12_002: [The constructor shall create a target uri from the url encoded host name)]
-            targetUri = URLEncoder.encode(this.resourceUri.toLowerCase(), String.valueOf(StandardCharsets.UTF_8));
+            targetUri = URLEncoder.encode(this.resourceUri.toLowerCase(), "UTF-8");
             // Codes_SRS_SERVICE_SDK_JAVA_IOTHUBSERVICESASTOKEN_12_003: [The constructor shall create a string to sign by concatenating the target uri and the expiry time string (one year)]
             String toSign = targetUri + "\n" + this.expiryTime;
 
             // Codes_SRS_SERVICE_SDK_JAVA_IOTHUBSERVICESASTOKEN_12_004: [The constructor shall create a key from the shared access key signing with HmacSHA256]
             // Get an hmac_sha1 key from the raw key bytes
-            byte[] keyBytes = Base64.decodeBase64(this.keyValue.getBytes("UTF-8"));
+            byte[] keyBytes = Base64.getDecoder().decode(keyValue.getBytes("UTF-8"));
             SecretKeySpec signingKey = new SecretKeySpec(keyBytes, "HmacSHA256");
 
             // Get an hmac_sha1 Mac instance and initialize with the signing key
@@ -95,7 +94,7 @@ public final class IotHubServiceSasToken
             byte[] rawHmac = mac.doFinal(toSign.getBytes("UTF-8"));
             // Convert raw bytes to Hex
             String signature = URLEncoder.encode(
-                    Base64.encodeBase64String(rawHmac), "UTF-8");
+                    Base64.getEncoder().encodeToString(rawHmac), "UTF-8");
 
             // Codes_SRS_SERVICE_SDK_JAVA_IOTHUBSERVICESASTOKEN_12_006: [The constructor shall concatenate the target uri, the signature, the expiry time and the key name using the format: "SharedAccessSignature sr=%s&sig=%s&se=%s&skn=%s"]
             String token = String.format(TOKEN_FORMAT, targetUri, signature, this.expiryTime, this.keyName);

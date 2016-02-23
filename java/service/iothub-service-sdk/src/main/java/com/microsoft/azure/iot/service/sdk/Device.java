@@ -7,10 +7,10 @@ package com.microsoft.azure.iot.service.sdk;
 
 import com.google.gson.annotations.SerializedName;
 import com.microsoft.azure.iot.service.auth.SymmetricKey;
+import com.microsoft.azure.util.Base64;
 
 import javax.crypto.KeyGenerator;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
 
 /**
  * The Device class extends the Device class

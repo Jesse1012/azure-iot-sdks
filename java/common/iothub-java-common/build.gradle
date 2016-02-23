@@ -1,0 +1,19 @@
+apply plugin: 'java'
+apply plugin: 'me.tatarka.retrolambda'
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+compileJava {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+retrolambda {
+    jdk JAVA8_HOME
+    oldJdk JAVA7_HOME
+    javaVersion JavaVersion.VERSION_1_7
+    //jvmArgs '-noverify'
+    //defaultMethods true
+}
