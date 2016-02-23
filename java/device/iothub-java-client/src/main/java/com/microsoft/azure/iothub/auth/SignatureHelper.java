@@ -53,8 +53,6 @@ public final class SignatureHelper
     public static byte[] decodeDeviceKeyBase64(String deviceKey)
     {
         // Codes_SRS_SIGNATUREHELPER_11_003: [The function shall decode the device key using Base64.]
-        // TODO:(pv) javax.xml.bind.DatatypeConverter is not available in Android
-        //return DatatypeConverter.parseBase64Binary(deviceKey);
         return Base64.getDecoder().decode(deviceKey);
     }
 
@@ -105,8 +103,6 @@ public final class SignatureHelper
     public static byte[] encodeSignatureBase64(byte[] sig)
     {
         // Codes_SRS_SIGNATUREHELPER_11_006: [The function shall encode the signature using Base64.]
-        // TODO:(pv) javax.xml.bind.DatatypeConverter is not available in Android
-        //return DatatypeConverter.printBase64Binary(sig).getBytes(SIGNATURE_CHARSET);
         return Base64.getEncoder().encode(sig);
     }
 
